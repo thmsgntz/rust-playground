@@ -7,9 +7,10 @@
 ################################################################################
 # Create a stage for building the application.
 
-ARG RUST_VERSION=1.67
+#ARG RUST_VERSION=1.67
 ARG APP_NAME=rocket_website
-FROM rust:${RUST_VERSION}-slim-bullseye AS build
+#FROM rust:${RUST_VERSION}-slim-bullseye AS build
+FROM amd64/rust:1.74-slim as build
 ARG APP_NAME
 WORKDIR /app
 
