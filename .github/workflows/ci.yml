@@ -49,8 +49,10 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile --tag rust-playground:$(date +%s)
+    - name: Docker Compose Up
+      run: |
         docker compose up -d
+    - name: Curl and Compose Down
+      run: |
         curl localhost:8000
-        docker compsoe down
-
-
+        docker compose down
