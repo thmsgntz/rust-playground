@@ -17,9 +17,40 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     
+    timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+
+    # This GitHub Action installs a Rust toolchain using rustup.  
+    - uses: dtolnay/rust-toolchain@stable
+
     - name: Build
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+
+
+  build-image-docker:
+    name: Build Image Docker
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: |
+        docker build . --file Dockerfile --tag rust-playground:$(date +%s)
+        docker compose up -d
+        curl localhost:8000
+        docker compsoe down
+
+
