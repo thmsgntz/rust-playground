@@ -8,7 +8,7 @@
 # Create a stage for building the application.
 
 ARG RUST_VERSION=1.74
-ARG APP_NAME=rocket_website
+ARG APP_NAME=rust_website
 FROM rust:${RUST_VERSION}-slim-bullseye AS build
 ARG APP_NAME
 WORKDIR /app
@@ -60,8 +60,8 @@ USER appuser
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/server /bin/
 
-# Configure rocket to listen on all interfaces.
-ENV ROCKET_ADDRESS=0.0.0.0
+# Configure server to listen on all interfaces.
+ENV SERVER_ADDR=0.0.0.0
 
 # Expose the port that the application listens on.
 EXPOSE 8000
